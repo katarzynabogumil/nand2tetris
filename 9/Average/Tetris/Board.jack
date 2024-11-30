@@ -1,0 +1,285 @@
+/** Implements a graphical board. */
+class Board {
+   field int x, y; 
+   field int nodeSize, sizeX, sizeY; 
+   field int score;          // current score
+   field Array board;
+   field Block block; // the current block
+   field int previousBlockY;
+   field int counter; // moves counter used to choose a new block shape
+
+
+   /** Constructs and draws a new board with a size. */
+   constructor Board new(int inX, int inY, int inputNodeSize, int inSizeX, int inSizeY) {
+      let x = inX;
+      let y = inY;
+      let nodeSize = inputNodeSize;
+      let sizeX = inSizeX;
+      let sizeY = inSizeY;
+      let counter = 0;
+      let previousBlockY = 0;
+      let score = 0;
+
+      let board = _constructRows();
+      
+      let block = Block.new(counter, sizeX / 2, 1);
+      do _drawBlock(true);
+
+      return this;
+   }
+
+   /** Disposes this board. */
+   method void dispose() {
+      do board.dispose();
+      do block.dispose();
+      do Memory.deAlloc(this);
+      return;
+   }
+   
+   /** Moves the block in the current direction. */
+   method boolean moveBlock(Point vector) {
+      var Point newVector;
+      let counter = counter + 1;
+
+      if (_checkIfMovePossible(vector)) {
+         do _redrawBlock(vector);
+         return false; 
+      } 
+
+      let newVector = Point.new(0, 1);
+      if (_checkIfMovePossible(newVector)) {
+         do _redrawBlock(newVector);
+         return false; 
+      } 
+
+      // If the block couldn't move and it's Y is still the same
+      if (previousBlockY = block.getY()) {
+         do _saveBlockPosition();
+         do block.dispose();
+         let block = Block.new(counter, sizeX / 2, 1);
+         let previousBlockY = 0;
+         do _drawBlock(true);
+         return false; 
+      }
+
+      // If the block couldn't move and it's position is still on top
+      if (previousBlockY = 0) {
+         return true;
+      }
+
+      return false; 
+   }
+
+   method void _redrawBlock(Point vector) {
+      do _drawBlock(false); // erase old block position
+      do block.move(vector);
+      let previousBlockY = block.getY();
+      do _drawBlock(true); // draw new block position
+      return;
+   }
+
+   method boolean _checkIfMovePossible(Point vector) {
+      var int i, j, newX, newY, length;
+      var Point point;
+      var Array points;
+      var Array row;
+      var BoardNode node;
+      var boolean isMovePossible;
+
+      let isMovePossible = true;
+      let i = 0;
+      let points = block.getPoints();
+      let length = block.getPointsLength();
+
+      while (i < length) {
+         let point = points[i];
+         let newX = point.getX() + vector.getX();
+         let newY = point.getY() + vector.getY();
+         let row = board[newY];
+         let node = row[newX];
+
+         if (node.getValue()) {
+            let isMovePossible = false;
+         }
+
+         let i = i + 1;
+      }
+
+      return isMovePossible;
+   }
+
+   method void _saveBlockPosition() {
+      var int i, blockX, blockY, length, fullLineCount;
+      var Point point;
+      var Array points;
+      var Array row;
+      var BoardNode node;
+      var boolean isFullLine;
+
+      let i = 0;
+      let points = block.getPoints();
+      let length = block.getPointsLength();
+      let fullLineCount = 0;
+
+      while (i < length) {
+         let point = points[i];
+         let blockX = point.getX();
+         let blockY = point.getY();
+         let row = board[blockY];
+         let node = row[blockX];
+
+         do node.setValue(true);
+
+         let isFullLine = _checkIfFullLine(blockY);
+         if (isFullLine) {
+            let fullLineCount = fullLineCount + 1;
+            do _deleteRow(blockY);
+         }
+
+         let i = i + 1;
+      }
+
+      do _countScore(fullLineCount);
+
+      return;
+   }
+
+   method void _deleteRow(int rowIndex) {
+      var int i, j;
+      var Array row, previousRow;
+      var BoardNode node, previousNode;
+      var boolean value;
+
+      let i = sizeY;
+      while (i > 0) {
+         let row = board[i];
+         if (i = 1) {
+            let j = 1;
+            while (j < (sizeX + 1)) {
+               let node = row[j];
+               do node.setValue(false);
+               let j = j + 1;
+            }
+         } else {
+            if ((i < rowIndex) | (i = rowIndex)) {
+               let previousRow = board[i - 1];
+               let j = 1;
+               while (j < (sizeX + 1)) {
+                  let previousNode = previousRow[j];
+                  let node = row[j];
+                  let value = previousNode.getValue();
+                  do node.setValue(value);
+                  let j = j + 1;
+               }
+            }
+         }
+         let i = i - 1;
+      }
+
+      return;
+   }
+
+   method void _countScore(int fullLineCount) {
+      if (fullLineCount = 1) { let score = score + 20; }
+      if (fullLineCount = 2) { let score = score + 100; }
+      if (fullLineCount = 3) { let score = score + 300; }
+      if (fullLineCount = 4) { let score = score + 1200; }
+
+      do Output.moveCursor(3,12);
+	   do Output.printInt(score);
+
+      return;
+   }
+
+   method boolean _checkIfFullLine(int rowIndex) {
+      var int i;
+      var Array row;
+      var BoardNode node;
+      var boolean isFullLine;
+
+      let isFullLine = true;
+      let i = 1;
+      let row = board[rowIndex];
+
+      while (i < sizeX) {
+         let node = row[i];
+         if (~node.getValue()) {
+            let isFullLine = false;
+         }
+         let i = i + 1;
+      }
+
+      return isFullLine;
+   }
+
+   method void _drawBlock(boolean fill) {
+      var int i, blockX, blockY, length;
+      var Point point;
+      var Array points;
+      var Array row;
+      var BoardNode node;
+
+      let i = 0;
+      let points = block.getPoints();
+      let length = block.getPointsLength();
+
+      while (i < length) {
+         let point = points[i];
+         let blockX = point.getX();
+         let blockY = point.getY();
+         let row = board[blockY];
+         let node = row[blockX];
+
+         do node.draw(fill);
+
+         let i = i + 1;
+      }
+
+      return;
+   }
+
+   method Array _constructRows() {
+      var int i;
+      var Array rows;
+
+      let rows = Array.new(sizeY + 2);
+      let i = 0;
+      while (i < (sizeY + 2)) {
+         if ((i = 0) | (i = (sizeY + 1))) {
+            let rows[i] = _constructRow(i, true); // border top and bottom
+         } else {
+            let rows[i] = _constructRow(i, false); // other rows
+         }
+         let i = i + 1;
+      }
+
+      return rows;
+   }
+
+   method Array _constructRow(int rowY, boolean fill) {
+      var int i;
+      var Array row;
+
+      let row = Array.new(sizeX + 2);
+      let i = 0;
+      while (i < (sizeX + 2)) {
+         if ((i = 0) | (i = (sizeX + 1))) {
+            let row[i] = _contructNode(i, rowY, true); // border left and right
+         } else {
+            let row[i] = _contructNode(i, rowY, fill); // other nodes
+         }
+         let i = i + 1;
+      }
+
+      return row;
+   }
+
+   method BoardNode _contructNode(int nodeX, int nodeY, boolean fill) {
+      var BoardNode node;
+      
+      let node = BoardNode.new(x + (nodeX * nodeSize), y + (nodeY * nodeSize), nodeSize, fill, fill);
+      if (fill) { do node.draw(true); } // display border
+      
+      return node;
+   }
+}

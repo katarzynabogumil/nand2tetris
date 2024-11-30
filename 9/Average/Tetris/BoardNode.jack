@@ -1,0 +1,46 @@
+/** Implements a display square made of pixels. */
+class BoardNode {
+   field int x, y;
+   field int size; 
+   field boolean value; 
+   field boolean border; 
+
+   /** Constructs a new square with a given location and size. */
+   constructor BoardNode new(int inX, int inY, int inSize, boolean inValue, boolean inBorder) {
+      let x = inX;
+      let y = inY;
+      let size = inSize;
+      let value = inValue;
+      let border = inBorder;
+
+      return this;
+   }
+
+   /** Disposes this square. */
+   method void dispose() {
+      do Memory.deAlloc(this);
+      return;
+   }
+
+   /** Draws this square in its current (x,y) location */
+   method void draw(boolean fill) {
+      do Screen.setColor(fill); // false to erase
+      if (border) {
+         do Screen.drawRectangle(x, y, x + size, y + size);
+      } else {
+         do Screen.drawRectangle(x + 1, y + 1, x + size - 2, y + size - 2);
+      }
+      return;
+   }
+
+   method boolean getValue() {
+      return value;
+   }
+
+   /** Changes square's value and updates display */
+   method void setValue(boolean newValue) {
+      let value = newValue;
+      do draw(newValue);
+      return;
+   }
+}

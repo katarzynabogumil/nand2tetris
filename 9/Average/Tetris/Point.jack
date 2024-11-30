@@ -1,0 +1,31 @@
+/** Implements a point - to decribe all Tetris shapes coordinates in the matrix */
+class Point {
+   field int x, y; 
+
+   /** Constructs a new point. */
+   constructor Point new(int inX, int inY) {
+      let x = inX;
+      let y = inY;
+
+      return this;
+   }
+
+   method void dispose() {
+      do Memory.deAlloc(this);
+      return;
+   }
+
+   method int getX() {
+      return x;
+   }
+
+   method int getY() {
+      return y;
+   }
+
+   method void move(Point vector) {
+      let x = x + vector.getX();
+      let y = y + vector.getY();
+      return;
+   }
+}

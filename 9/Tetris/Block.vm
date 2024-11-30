@@ -1,0 +1,1434 @@
+function Block.new 1
+push constant 6
+call Memory.alloc 1
+pop pointer 0
+push argument 1
+pop this 0
+push argument 2
+pop this 1
+push constant 4
+pop this 2
+push pointer 0
+push argument 0
+call Block._getBlockIndex 2
+pop local 0
+push constant 0
+pop this 5
+push local 0
+push constant 0
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push pointer 0
+call Block._constructT 1
+pop this 4
+push this 5
+push this 4
+add
+pop pointer 1
+push that 0
+pop this 3
+push pointer 0
+return
+label IF_FALSE0
+push local 0
+push constant 1
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push pointer 0
+call Block._constructI 1
+pop this 4
+push this 5
+push this 4
+add
+pop pointer 1
+push that 0
+pop this 3
+push pointer 0
+return
+label IF_FALSE1
+push local 0
+push constant 2
+eq
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push pointer 0
+call Block._constructS 1
+pop this 4
+push this 5
+push this 4
+add
+pop pointer 1
+push that 0
+pop this 3
+push pointer 0
+return
+label IF_FALSE2
+push local 0
+push constant 3
+eq
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push pointer 0
+call Block._constructZ 1
+pop this 4
+push this 5
+push this 4
+add
+pop pointer 1
+push that 0
+pop this 3
+push pointer 0
+return
+label IF_FALSE3
+push local 0
+push constant 4
+eq
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
+push pointer 0
+call Block._constructL 1
+pop this 4
+push this 5
+push this 4
+add
+pop pointer 1
+push that 0
+pop this 3
+push pointer 0
+return
+label IF_FALSE4
+push local 0
+push constant 5
+eq
+if-goto IF_TRUE5
+goto IF_FALSE5
+label IF_TRUE5
+push pointer 0
+call Block._constructJ 1
+pop this 4
+push this 5
+push this 4
+add
+pop pointer 1
+push that 0
+pop this 3
+push pointer 0
+return
+label IF_FALSE5
+push pointer 0
+call Block._constructO 1
+pop this 4
+push this 5
+push this 4
+add
+pop pointer 1
+push that 0
+pop this 3
+push pointer 0
+return
+function Block.dispose 0
+push argument 0
+pop pointer 0
+push this 3
+call Array.dispose 1
+pop temp 0
+push this 4
+call Array.dispose 1
+pop temp 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return
+function Block.move 0
+push argument 0
+pop pointer 0
+push this 0
+push argument 1
+call Point.getX 1
+add
+pop this 0
+push this 1
+push argument 1
+call Point.getY 1
+add
+pop this 1
+push constant 0
+return
+function Block.rotate 0
+push argument 0
+pop pointer 0
+push this 5
+push constant 3
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+pop this 5
+goto IF_END0
+label IF_FALSE0
+push this 5
+push constant 1
+add
+pop this 5
+label IF_END0
+push this 5
+push this 4
+add
+pop pointer 1
+push that 0
+pop this 3
+push constant 0
+return
+function Block.getX 1
+push argument 0
+pop pointer 0
+push argument 1
+push this 3
+add
+pop pointer 1
+push that 0
+pop local 0
+push this 0
+push local 0
+call Point.getX 1
+add
+return
+function Block.getY 1
+push argument 0
+pop pointer 0
+push argument 1
+push this 3
+add
+pop pointer 1
+push that 0
+pop local 0
+push this 1
+push local 0
+call Point.getY 1
+add
+return
+function Block.getNextX 2
+push argument 0
+pop pointer 0
+push this 5
+push constant 3
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+push this 4
+add
+pop pointer 1
+push that 0
+pop local 1
+push argument 1
+push local 1
+add
+pop pointer 1
+push that 0
+pop local 0
+push this 0
+push local 0
+call Point.getX 1
+add
+return
+goto IF_END0
+label IF_FALSE0
+push this 5
+push constant 1
+add
+push this 4
+add
+pop pointer 1
+push that 0
+pop local 1
+push argument 1
+push local 1
+add
+pop pointer 1
+push that 0
+pop local 0
+push this 0
+push local 0
+call Point.getX 1
+add
+return
+label IF_END0
+function Block.getNextY 2
+push argument 0
+pop pointer 0
+push this 5
+push constant 3
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+push this 4
+add
+pop pointer 1
+push that 0
+pop local 1
+push argument 1
+push local 1
+add
+pop pointer 1
+push that 0
+pop local 0
+push this 1
+push local 0
+call Point.getY 1
+add
+return
+goto IF_END0
+label IF_FALSE0
+push this 5
+push constant 1
+add
+push this 4
+add
+pop pointer 1
+push that 0
+pop local 1
+push argument 1
+push local 1
+add
+pop pointer 1
+push that 0
+pop local 0
+push this 1
+push local 0
+call Point.getY 1
+add
+return
+label IF_END0
+function Block.getPoints 0
+push argument 0
+pop pointer 0
+push this 3
+return
+function Block.getPointsLength 0
+push argument 0
+pop pointer 0
+push this 2
+return
+function Block._getBlockIndex 1
+push argument 0
+pop pointer 0
+push constant 7
+pop local 0
+push argument 1
+push argument 1
+push local 0
+call Math.divide 2
+push local 0
+call Math.multiply 2
+sub
+return
+function Block._constructO 2
+push argument 0
+pop pointer 0
+push constant 4
+call Array.new 1
+pop local 0
+push constant 4
+call Array.new 1
+pop local 1
+push constant 0
+push local 1
+add
+push constant 0
+push constant 0
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 1
+add
+push constant 0
+push constant 1
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push local 1
+add
+push constant 1
+push constant 0
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push local 1
+add
+push constant 1
+push constant 1
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 0
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push local 0
+return
+function Block._constructI 3
+push argument 0
+pop pointer 0
+push constant 4
+call Array.new 1
+pop local 0
+push constant 4
+call Array.new 1
+pop local 1
+push constant 0
+push local 1
+add
+push constant 0
+push constant 0
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 1
+add
+push constant 0
+push constant 1
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push local 1
+add
+push constant 0
+push constant 2
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push local 1
+add
+push constant 0
+push constant 3
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 0
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 4
+call Array.new 1
+pop local 2
+push constant 0
+push local 2
+add
+push constant 0
+push constant 0
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 2
+add
+push constant 1
+push constant 0
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push local 2
+add
+push constant 2
+push constant 0
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push local 2
+add
+push constant 3
+push constant 0
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 0
+add
+push local 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push local 0
+add
+push local 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push local 0
+return
+function Block._constructS 3
+push argument 0
+pop pointer 0
+push constant 4
+call Array.new 1
+pop local 0
+push constant 4
+call Array.new 1
+pop local 1
+push constant 0
+push local 1
+add
+push constant 0
+push constant 1
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 1
+add
+push constant 0
+push constant 2
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push local 1
+add
+push constant 1
+push constant 0
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push local 1
+add
+push constant 1
+push constant 1
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 0
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 4
+call Array.new 1
+pop local 2
+push constant 0
+push local 2
+add
+push constant 0
+push constant 0
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 2
+add
+push constant 1
+push constant 0
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push local 2
+add
+push constant 1
+push constant 1
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push local 2
+add
+push constant 2
+push constant 1
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 0
+add
+push local 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push local 0
+add
+push local 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push local 0
+return
+function Block._constructZ 3
+push argument 0
+pop pointer 0
+push constant 4
+call Array.new 1
+pop local 0
+push constant 4
+call Array.new 1
+pop local 1
+push constant 0
+push local 1
+add
+push constant 0
+push constant 0
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 1
+add
+push constant 0
+push constant 1
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push local 1
+add
+push constant 1
+push constant 1
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push local 1
+add
+push constant 1
+push constant 2
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 0
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 4
+call Array.new 1
+pop local 2
+push constant 0
+push local 2
+add
+push constant 0
+push constant 1
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 2
+add
+push constant 1
+push constant 0
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push local 2
+add
+push constant 1
+push constant 1
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push local 2
+add
+push constant 2
+push constant 0
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 0
+add
+push local 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push local 0
+add
+push local 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push local 0
+return
+function Block._constructL 2
+push argument 0
+pop pointer 0
+push constant 4
+call Array.new 1
+pop local 0
+push constant 4
+call Array.new 1
+pop local 1
+push constant 0
+push local 1
+add
+push constant 0
+push constant 0
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 1
+add
+push constant 0
+push constant 1
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push local 1
+add
+push constant 0
+push constant 2
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push local 1
+add
+push constant 1
+push constant 0
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 0
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 4
+call Array.new 1
+pop local 1
+push constant 0
+push local 1
+add
+push constant 0
+push constant 0
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 1
+add
+push constant 0
+push constant 1
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push local 1
+add
+push constant 1
+push constant 1
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push local 1
+add
+push constant 2
+push constant 1
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 4
+call Array.new 1
+pop local 1
+push constant 0
+push local 1
+add
+push constant 0
+push constant 2
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 1
+add
+push constant 1
+push constant 0
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push local 1
+add
+push constant 1
+push constant 1
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push local 1
+add
+push constant 1
+push constant 2
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 4
+call Array.new 1
+pop local 1
+push constant 0
+push local 1
+add
+push constant 0
+push constant 0
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 1
+add
+push constant 1
+push constant 0
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push local 1
+add
+push constant 2
+push constant 0
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push local 1
+add
+push constant 2
+push constant 1
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push local 0
+return
+function Block._constructJ 2
+push argument 0
+pop pointer 0
+push constant 4
+call Array.new 1
+pop local 0
+push constant 4
+call Array.new 1
+pop local 1
+push constant 0
+push local 1
+add
+push constant 0
+push constant 0
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 1
+add
+push constant 0
+push constant 1
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push local 1
+add
+push constant 0
+push constant 2
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push local 1
+add
+push constant 1
+push constant 0
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 0
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 4
+call Array.new 1
+pop local 1
+push constant 0
+push local 1
+add
+push constant 0
+push constant 0
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 1
+add
+push constant 1
+push constant 0
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push local 1
+add
+push constant 2
+push constant 0
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push local 1
+add
+push constant 2
+push constant 1
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 4
+call Array.new 1
+pop local 1
+push constant 0
+push local 1
+add
+push constant 1
+push constant 0
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 1
+add
+push constant 1
+push constant 1
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push local 1
+add
+push constant 1
+push constant 2
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push local 1
+add
+push constant 0
+push constant 2
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 4
+call Array.new 1
+pop local 1
+push constant 0
+push local 1
+add
+push constant 0
+push constant 0
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 1
+add
+push constant 0
+push constant 1
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push local 1
+add
+push constant 1
+push constant 1
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push local 1
+add
+push constant 2
+push constant 1
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push local 0
+return
+function Block._constructT 2
+push argument 0
+pop pointer 0
+push constant 4
+call Array.new 1
+pop local 0
+push constant 4
+call Array.new 1
+pop local 1
+push constant 0
+push local 1
+add
+push constant 0
+push constant 0
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 1
+add
+push constant 0
+push constant 1
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push local 1
+add
+push constant 0
+push constant 2
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push local 1
+add
+push constant 1
+push constant 1
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 0
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 4
+call Array.new 1
+pop local 1
+push constant 0
+push local 1
+add
+push constant 0
+push constant 1
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 1
+add
+push constant 1
+push constant 0
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push local 1
+add
+push constant 1
+push constant 1
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push local 1
+add
+push constant 1
+push constant 2
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 4
+call Array.new 1
+pop local 1
+push constant 0
+push local 1
+add
+push constant 1
+push constant 0
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 1
+add
+push constant 0
+push constant 1
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push local 1
+add
+push constant 1
+push constant 1
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push local 1
+add
+push constant 2
+push constant 1
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 4
+call Array.new 1
+pop local 1
+push constant 0
+push local 1
+add
+push constant 0
+push constant 0
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 1
+add
+push constant 1
+push constant 0
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push local 1
+add
+push constant 1
+push constant 1
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push local 1
+add
+push constant 2
+push constant 0
+call Point.new 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push local 0
+return

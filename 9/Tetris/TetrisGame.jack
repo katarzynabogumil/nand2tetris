@@ -1,0 +1,116 @@
+/**
+ * Implements the Tetris game.
+ */
+class TetrisGame {
+
+   static TetrisGame instance; // Tetris game     
+   field boolean exit;         // true when the game is over
+   field Board board;          // board which analyzes block movements and displayes them
+   field int direction;        // the blocks's current movement direction: 
+                               // 0=none, 1=left, 2=right, 3=down
+   field boolean fallDown;     // flag for slowing down free fall without losing responsiveness
+
+   /** Constructs a new Tetris game. */
+   constructor TetrisGame new() {
+      do Screen.clearScreen();
+      
+	   do Output.moveCursor(3,5);
+	   do Output.printString("Score: 0");
+
+      let board = Board.new(300, 18, 10, 10, 20);
+      let exit = false;
+      let fallDown = false;
+
+      return this;
+   }
+
+   /** Disposes this game. */
+   method void dispose() {
+      do board.dispose();
+      do Memory.deAlloc(this);
+      return;
+   }
+
+   /** Creates an instance of a Tetris game. */
+   function void newInstance() {
+      let instance = TetrisGame.new();
+      return;
+   }
+   
+   /** Returns this Tetris game. */
+   function TetrisGame getInstance() {
+      return instance;
+   }
+
+   /** Moves the block in the current direction. */
+   method boolean moveBlock() {
+      var boolean exit;
+      var Point vector;
+      var int wait;
+
+      let vector = Point.new(0, 1);
+      let wait = 100;
+      if (direction = 1) { 
+         let vector = Point.new(-1, 1); 
+      }
+      if (direction = 2) { 
+         let vector = Point.new(1, 1); 
+      }
+      if (direction = 3) { 
+         do board.moveBlock(vector); // make additional move down
+         let wait = 50;
+      }
+      if (direction = 0) {
+         let fallDown = ~fallDown;
+         if (~fallDown) {
+            return exit;
+         }
+      }
+
+      let exit = board.moveBlock(vector);
+      do Sys.wait(wait);  // delays the next movement
+      return exit;
+   }
+
+   /** Runs the game: handles the user's inputs and moves the blocks accordingly */
+   method void run() {
+      var char key;  // the key currently pressed by the user
+
+      while (~exit) {
+         let key = Keyboard.keyPressed();
+
+         if (key = 32) { 
+            do board.rotateBlock(); // space key
+            do Sys.wait(100);  // delays the next movement
+         } else {
+            if (key = 130) { 
+               let direction = 1; // left arrow
+            } else {
+               if (key = 132) { 
+                  let direction = 2; // right arrow
+               }  else {
+                  if (key = 133) { 
+                     let direction = 3; // down arrow
+                  } else {
+                     if (key = 140) { let exit = true; } // esc key
+                     let direction = 0; // free fall
+                     do Sys.wait(100);  // delays the next movement
+                  }
+               }
+            }
+         }
+
+         let exit = moveBlock(); // returns true if block can't move anymore
+      }
+
+      if (exit) {
+         do Output.moveCursor(4,5);
+         do Output.printString("Game Over");
+      }
+      
+     return;
+   }
+}
+
+
+

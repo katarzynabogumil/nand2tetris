@@ -1,0 +1,367 @@
+/** Implements one of tetris blocks */
+class Block {
+   field int x, y, pointsLength;
+   field Array points;        // array with points describing block's shape
+   field Array positions;     // array with all shapes of a block in different rotations
+   field int rotation;        // current rotation of the block (index in the positions array)
+
+   /** Constructs a new block. */
+   constructor Block new(int randomNumber, int inX, int inY) {
+      var int index;
+
+      let x = inX;
+      let y = inY;
+      let pointsLength = 4;
+      let index = _getBlockIndex(randomNumber);
+      let rotation = 0;
+      
+      if (index = 0) { 
+         let positions = _constructT(); 
+         let points = positions[rotation]; 
+         return this;
+      } 
+      if (index = 1) { 
+         let positions = _constructI(); 
+         let points = positions[rotation]; 
+         return this;
+      } 
+      if (index = 2) { 
+         let positions = _constructS(); 
+         let points = positions[rotation]; 
+         return this;
+      } 
+      if (index = 3) { 
+         let positions = _constructZ(); 
+         let points = positions[rotation]; 
+         return this;
+      } 
+      if (index = 4) { 
+         let positions = _constructL(); 
+         let points = positions[rotation]; 
+         return this;
+      } 
+      if (index = 5) { 
+         let positions = _constructJ(); 
+         let points = positions[rotation]; 
+         return this;
+      } 
+      let positions = _constructO(); 
+      let points = positions[rotation]; 
+      return this;
+   }
+
+   /** Disposes this class. */
+   method void dispose() {
+      do points.dispose();
+      do positions.dispose();
+      do Memory.deAlloc(this);
+      return;
+   }
+
+   /** Moves the block's anchor coordinates. */
+   method void move(Point vector) {
+      let x = x + vector.getX();
+      let y = y + vector.getY();
+      return;
+   }
+
+   /** Rotates the block by incerementing the index 
+    *  and setting new shape as the points array. */
+   method void rotate() {
+      if (rotation = 3) {
+         let rotation = 0;
+      } else {
+         let rotation = rotation + 1;
+      }
+      let points = positions[rotation];
+      return;
+   }
+
+   /** Returns x coordinate of a point with the specified index 
+    *  from the current points array describing block's shape. */
+   method int getX(int index) {
+      var Point point;
+      let point = points[index];
+      return x + point.getX();
+   }
+
+   /** Returns y coordinate of a point with the specified index 
+    *  from the current points array describing block's shape. */
+   method int getY(int index) {
+      var Point point;
+      let point = points[index];
+      return y + point.getY();
+   }
+
+   /** Returns x coordinate of a point with the specified index 
+    *  from the points array after next rotation to check if it's possible. */
+   method int getNextX(int index) {
+      var Point point;
+      var Array nextPoints;
+
+      if (rotation = 3) {
+         let nextPoints = positions[0];
+         let point = nextPoints[index];
+         return x + point.getX();
+      } else {
+         let nextPoints = positions[rotation + 1];
+         let point = nextPoints[index];
+         return x + point.getX();
+      }
+   }
+
+
+   /** Returns y coordinate of a point with the specified index 
+    *  from the points array after next rotation to check if it's possible. */
+   method int getNextY(int index) {
+      var Point point;
+      var Array nextPoints;
+
+      if (rotation = 3) {
+         let nextPoints = positions[0];
+         let point = nextPoints[index];
+         return y + point.getY();
+      } else {
+         let nextPoints = positions[rotation + 1];
+         let point = nextPoints[index];
+         return y + point.getY();
+      }
+   }
+
+
+   /** Returns the current points array describing block's shape. */
+   method Array getPoints() {
+      return points;
+   }
+
+   /** Returns the current points array's length. */
+   method int getPointsLength() {
+      return pointsLength;
+   }
+
+   /** Returns a randomized number between 0 and 7 to randomize block's shape assignment.
+    *  Used by passing any random number, in this game: current movement count. */
+   method int _getBlockIndex(int randomNumber) {
+      var int shapesCount;
+      let shapesCount = 7;
+      return randomNumber-(randomNumber/shapesCount*shapesCount);
+   }
+
+   /** Describes O tetromino's shape in all its rotations. */
+   method Array _constructO() {
+      var Array all;
+      var Array shape;
+
+      let all = Array.new(4);
+
+      let shape = Array.new(4);
+      let shape[0] = Point.new(0, 0);
+      let shape[1] = Point.new(0, 1);
+      let shape[2] = Point.new(1, 0);
+      let shape[3] = Point.new(1, 1);
+      let all[0] = shape;
+      let all[1] = shape;
+      let all[2] = shape;
+      let all[3] = shape;
+
+      return all;
+   }
+
+   /** Describes I tetromino's shape in all its rotations. */
+   method Array _constructI() {
+      var Array all;
+      var Array shape0;
+      var Array shape1;
+
+      let all = Array.new(4);
+
+      let shape0 = Array.new(4);
+      let shape0[0] = Point.new(0, 0);
+      let shape0[1] = Point.new(0, 1);
+      let shape0[2] = Point.new(0, 2);
+      let shape0[3] = Point.new(0, 3);
+      let all[0] = shape0;
+
+      let shape1 = Array.new(4);
+      let shape1[0] = Point.new(0, 0);
+      let shape1[1] = Point.new(1, 0);
+      let shape1[2] = Point.new(2, 0);
+      let shape1[3] = Point.new(3, 0);
+      let all[1] = shape1;
+
+      let all[2] = shape0;
+      let all[3] = shape1;
+
+      return all;
+   }
+
+   /** Describes S tetromino's shape in all its rotations. */
+   method Array _constructS() {
+      var Array all;
+      var Array shape0;
+      var Array shape1;
+
+      let all = Array.new(4);
+
+      let shape0 = Array.new(4);
+      let shape0[0] = Point.new(0, 1);
+      let shape0[1] = Point.new(0, 2);
+      let shape0[2] = Point.new(1, 0);
+      let shape0[3] = Point.new(1, 1);
+      let all[0] = shape0;
+
+      let shape1 = Array.new(4);
+      let shape1[0] = Point.new(0, 0);
+      let shape1[1] = Point.new(1, 0);
+      let shape1[2] = Point.new(1, 1);
+      let shape1[3] = Point.new(2, 1);
+      let all[1] = shape1;
+
+      let all[2] = shape0;
+      let all[3] = shape1;
+
+      return all;
+   }
+
+   /** Describes Z tetromino's shape in all its rotations. */
+   method Array _constructZ() {
+      var Array all;
+      var Array shape0;
+      var Array shape1;
+
+      let all = Array.new(4);
+
+      let shape0 = Array.new(4);
+      let shape0[0] = Point.new(0, 0);
+      let shape0[1] = Point.new(0, 1);
+      let shape0[2] = Point.new(1, 1);
+      let shape0[3] = Point.new(1, 2);
+      let all[0] = shape0;
+
+      let shape1 = Array.new(4);
+      let shape1[0] = Point.new(0, 1);
+      let shape1[1] = Point.new(1, 0);
+      let shape1[2] = Point.new(1, 1);
+      let shape1[3] = Point.new(2, 0);
+      let all[1] = shape1;
+
+      let all[2] = shape0;
+      let all[3] = shape1;
+
+      return all;
+   }
+
+   /** Describes L tetromino's shape in all its rotations. */
+   method Array _constructL() {
+      var Array all;
+      var Array shape;
+
+      let all = Array.new(4);
+
+      let shape = Array.new(4);
+      let shape[0] = Point.new(0, 0);
+      let shape[1] = Point.new(0, 1);
+      let shape[2] = Point.new(0, 2);
+      let shape[3] = Point.new(1, 0);
+      let all[0] = shape;
+
+      let shape = Array.new(4);
+      let shape[0] = Point.new(0, 0);
+      let shape[1] = Point.new(0, 1);
+      let shape[2] = Point.new(1, 1);
+      let shape[3] = Point.new(2, 1);
+      let all[1] = shape;
+
+      let shape = Array.new(4);
+      let shape[0] = Point.new(0, 2);
+      let shape[1] = Point.new(1, 0);
+      let shape[2] = Point.new(1, 1);
+      let shape[3] = Point.new(1, 2);
+      let all[2] = shape;
+
+      let shape = Array.new(4);
+      let shape[0] = Point.new(0, 0);
+      let shape[1] = Point.new(1, 0);
+      let shape[2] = Point.new(2, 0);
+      let shape[3] = Point.new(2, 1);
+      let all[3] = shape;
+
+      return all;
+   }
+
+   /** Describes J tetromino's shape in all its rotations. */
+   method Array _constructJ() {
+      var Array all;
+      var Array shape;
+
+      let all = Array.new(4);
+
+      let shape = Array.new(4);
+      let shape[0] = Point.new(0, 0);
+      let shape[1] = Point.new(0, 1);
+      let shape[2] = Point.new(0, 2);
+      let shape[3] = Point.new(1, 0);
+      let all[0] = shape;
+
+      let shape = Array.new(4);
+      let shape[0] = Point.new(0, 0);
+      let shape[1] = Point.new(1, 0);
+      let shape[2] = Point.new(2, 0);
+      let shape[3] = Point.new(2, 1);
+      let all[1] = shape;
+
+      let shape = Array.new(4);
+      let shape[0] = Point.new(1, 0);
+      let shape[1] = Point.new(1, 1);
+      let shape[2] = Point.new(1, 2);
+      let shape[3] = Point.new(0, 2);
+      let all[2] = shape;
+
+      let shape = Array.new(4);
+      let shape[0] = Point.new(0, 0);
+      let shape[1] = Point.new(0, 1);
+      let shape[2] = Point.new(1, 1);
+      let shape[3] = Point.new(2, 1);
+      let all[3] = shape;
+
+      return all;
+   }
+
+   /** Describes T tetromino's shape in all its rotations. */
+   method Array _constructT() {
+      var Array all;
+      var Array shape;
+
+      let all = Array.new(4);
+
+      let shape = Array.new(4);
+      let shape[0] = Point.new(0, 0);
+      let shape[1] = Point.new(0, 1);
+      let shape[2] = Point.new(0, 2);
+      let shape[3] = Point.new(1, 1);
+      let all[0] = shape;
+
+      let shape = Array.new(4);
+      let shape[0] = Point.new(0, 1);
+      let shape[1] = Point.new(1, 0);
+      let shape[2] = Point.new(1, 1);
+      let shape[3] = Point.new(1, 2);
+      let all[1] = shape;
+
+      let shape = Array.new(4);
+      let shape[0] = Point.new(1, 0);
+      let shape[1] = Point.new(0, 1);
+      let shape[2] = Point.new(1, 1);
+      let shape[3] = Point.new(2, 1);
+      let all[2] = shape;
+
+      let shape = Array.new(4);
+      let shape[0] = Point.new(0, 0);
+      let shape[1] = Point.new(1, 0);
+      let shape[2] = Point.new(1, 1);
+      let shape[3] = Point.new(2, 0);
+      let all[3] = shape;
+
+      return all;
+   }
+}

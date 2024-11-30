@@ -1,0 +1,156 @@
+/** Implements one of tetris blocks */
+class Block {
+   field int x, y, pointsLength;
+   field Array points;
+
+   /** Constructs a new block. */
+   constructor Block new(int randomNumber, int inX, int inY) {
+      var int index;
+
+      let x = inX;
+      let y = inY;
+      let pointsLength = 4;
+      let index = _getBlockIndex(randomNumber);
+
+      // if (index = 0) { 
+      //    let points = _constructT(); 
+      //    return this;
+      // } 
+      // if (index = 1) { 
+      //    let points = _constructI(); 
+      //    return this;
+      // } 
+      // if (index = 2) { 
+      //    let points = _constructS(); 
+      //    return this;
+      // } 
+      // if (index = 3) { 
+      //    let points = _constructZ(); 
+      //    return this;
+      // } 
+      // if (index = 4) { 
+      //    let points = _constructL(); 
+      //    return this;
+      // } 
+      // if (index = 5) { 
+      //    let points = _constructJ(); 
+      //    return this;
+      // } 
+
+      let points = _constructO(); 
+      return this;
+   }
+
+   /** Disposes this class. */
+   method void dispose() {
+      do points.dispose();
+      do Memory.deAlloc(this);
+      return;
+   }
+
+   method void move(Point vector) {
+      var int i;
+      var Point point;
+
+      let x = x + vector.getX();
+      let y = y + vector.getY();
+
+      let i = 0;
+      while (i < pointsLength) {
+         let point = points[i];
+         do point.move(vector);
+         let i = i + 1;
+      }
+
+      return;
+   }
+
+   method int getY() {
+      return y;
+   }
+
+   method Array getPoints() {
+      return points;
+   }
+
+   method int getPointsLength() {
+      return pointsLength;
+   }
+
+   method int _getBlockIndex(int randomNumber) {
+      var int shapesCount;
+      let shapesCount = 7;
+      return randomNumber-(randomNumber/shapesCount*shapesCount);
+   }
+
+   method Array _constructO() {
+      var Array o;
+      let o = Array.new(4);
+      let o[0] = Point.new(x, y);
+      let o[1] = Point.new(x, y + 1);
+      let o[2] = Point.new(x + 1, y);
+      let o[3] = Point.new(x + 1, y + 1);
+
+      return o;
+   }
+
+   method Array _constructI() {
+      var Array i;
+      let i = Array.new(4);
+      let i[0] = Point.new(x, y);
+      let i[1] = Point.new(x, y + 1);
+      let i[2] = Point.new(x, y + 2);
+      let i[3] = Point.new(x, y + 3);
+      return i;
+   }
+
+   method Array _constructS() {
+      var Array s;
+      let s = Array.new(4);
+      let s[0] = Point.new(x, y);
+      let s[1] = Point.new(x, y + 1);
+      let s[2] = Point.new(x + 1, y);
+      let s[3] = Point.new(x - 1, y + 1);
+      return s;
+   }
+
+   method Array _constructZ() {
+      var Array z;
+      let z = Array.new(4);
+      let z[0] = Point.new(x, y);
+      let z[1] = Point.new(x + 1, y);
+      let z[2] = Point.new(x + 1, y + 1);
+      let z[3] = Point.new(x + 2, y + 1);
+      return z;
+   }
+
+   method Array _constructL() {
+      var Array l;
+      let l = Array.new(4);
+      let l[0] = Point.new(x, y);
+      let l[1] = Point.new(x, y + 1);
+      let l[2] = Point.new(x, y + 2);
+      let l[3] = Point.new(x + 1, y + 2);
+      return l;
+   }
+
+   method Array _constructJ() {
+      var Array j;
+      let j = Array.new(4);
+      let j[0] = Point.new(x, y);
+      let j[1] = Point.new(x, y + 1);
+      let j[2] = Point.new(x, y + 2);
+      let j[3] = Point.new(x - 1, y + 2);
+      return j;
+   }
+
+   method Array _constructT() {
+      var Array t;
+      let t = Array.new(4);
+      let t[0] = Point.new(x, y);
+      let t[1] = Point.new(x + 1, y);
+      let t[2] = Point.new(x - 1, y);
+      let t[3] = Point.new(x, y + 1);
+      return t;
+   }
+}
